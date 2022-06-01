@@ -76,19 +76,70 @@ int main(){
 
     moto.acionarFreio();
     moto.ligarMoto();
-    moto.acionarAcelerador();
-    moto.liberarFreio();
-    
 
-    for(int seg=0;seg<30*60;seg++){
+    //simulação completa
+    int seg=0;
 
-        if(seg==0||seg%10==0){
-            cout<<"-----------------------------------------------"<<endl;
-            cout<<"Motorcycle plate: "<< moto.returnPlate() <<endl;
-            cout<<"Speed: "<< moto.returnSpeed() <<endl;
-            cout<<"Motorcycle battery SoC: "<< moto.returnP_bateria() <<endl;
-            cout<<"-----------------------------------------------"<<endl;
+    //6 ciclos
+    for(int i=0;i<6;i++){
+        //3min de aceleração
+        moto.liberarFreio();
+        moto.acionarAcelerador();
+        for(int j=0;j<3*60;j++,seg++){
+            moto.simulacao_1seg();
         }
+        //10seg de frenagem
+        moto.acionarFreio();
+        moto.liberarAcelerador();
+        for(int j=0;j<10;j++,seg++){
+            moto.simulacao_1seg();
+        }
+    }
+
+    //4 ciclos
+    for(int i=0;i<4;i++){
+        //2min de aceleração
+        moto.liberarFreio();
+        moto.acionarAcelerador();
+        for(int j=0;j<2*60;j++,seg++){
+            moto.simulacao_1seg();
+        }
+        //12seg de frenagem
+        moto.acionarFreio();
+        moto.liberarAcelerador();
+        for(int j=0;j<12;j++,seg++){
+            moto.simulacao_1seg();
+        }
+    }
+
+    //1min e 40seg de aceleração
+    moto.liberarFreio();
+    moto.acionarAcelerador();
+    for(int j=0;j<100;j++,seg++){
         moto.simulacao_1seg();
     }
+
+    //32seg de frenagem
+    moto.acionarFreio();
+    moto.liberarAcelerador();
+    for(int j=0;j<32;j++,seg++){
+        moto.simulacao_1seg();
+    }
+    
+    moto.desligarMoto();
+
+    cout<<seg;
+
+
+    // for(int seg=0;seg<30*60;seg++){
+
+    //     if(seg==0||seg%10==0){
+    //         cout<<"-----------------------------------------------"<<endl;
+    //         cout<<"Motorcycle plate: "<< moto.returnPlate() <<endl;
+    //         cout<<"Speed: "<< moto.returnSpeed() <<endl;
+    //         cout<<"Motorcycle battery SoC: "<< moto.returnP_bateria() <<endl;
+    //         cout<<"-----------------------------------------------"<<endl;
+    //     }
+    //     moto.simulacao_1seg();
+    // }
 }
