@@ -123,7 +123,7 @@ class Moto{
 class PontoCarga{
     private:
     enum state {Empty,Idle,Charging};
-    state estado = Idle;
+    state estado = Empty;
     Bateria bateria;
 
     public:
@@ -131,10 +131,15 @@ class PontoCarga{
         return bateria;
     }
 
+    int getstatusPC(){
+        return estado;
+    }
+
     void addBateria(Bateria in){
         if(estado==Empty){
             bateria = in;
             bateria.setAttached();
+            estado=Idle;
         }
         else cout<<"Ja existe uma bateria no CP!";
     }
@@ -149,6 +154,23 @@ class PontoCarga{
             out.uid=0;
             return out;
         }
+    }
+
+};
+
+
+
+
+
+class EstacaoCarga{
+    private:
+    int uid;
+    PontoCarga cp[8];
+
+
+    public:
+    void addBateriaToCP(int nCp,Bateria in){
+        cp[nCp].addBateria(in);
     }
 
 };
@@ -176,14 +198,21 @@ void relatorio(Moto moto){
 int main(){
 
     Moto moto("PLA2SA3");
-    Bateria bateria;
+    Bateria bateria,bateria1;
     bateria.uid=1;
     bateria.soc=85.0;
 
-    moto.adicionarBateria(bateria);
 
+    moto.adicionarBateria(bateria);
     moto.acionarFreio();
     moto.ligarMoto();
+
+    bateria1.uid=2;
+    bateria1.soc=85;
+
+    EstacaoCarga etc;
+    etc.addBateriaToCP(0,bateria1);
+    etc.addBateriaToCP(0,bateria1);
 
 
 
