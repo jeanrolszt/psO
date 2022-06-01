@@ -141,7 +141,13 @@ class PontoCarga{
             bateria.setAttached();
             estado=Idle;
         }
-        else cout<<"Ja existe uma bateria no CP!";
+        else cout<<"Ja existe uma bateria no CP!\n";
+    }
+
+    void startingCharging(){
+        if(estado){
+            estado=Charging;
+        }
     }
 
     Bateria rmvBateria(){
@@ -165,19 +171,24 @@ class PontoCarga{
 class EstacaoCarga{
     private:
     int uid;
-    PontoCarga cp[8];
 
 
     public:
+    PontoCarga cp[8];
+    int getUid(){return uid;}
     void addBateriaToCP(int nCp,Bateria in){
         cp[nCp].addBateria(in);
     }
+    void acionarCarregamento(int nCp){
+        cp[nCp].startingCharging();
+    }
+
 
 };
 
 
 
-void relatorio(Moto moto){
+void relatorioM(Moto moto){
     if(false){
         cout<<"Motorcycle plate: "<<moto.getPlate()<<endl;
         cout<<"Speed: "<<moto.getSpeed()<<endl;
@@ -188,8 +199,29 @@ void relatorio(Moto moto){
         if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
         else cout<<moto.getSoc()<<"%"<<endl<<endl;
     }
+}
 
+void relatorioETB(EstacaoCarga etb){
+    if(true){
+        cout<<"ETB ID: ";
+        if(etb.getUid()==0)cout<<"NULL";
+        else cout<<etb.getUid();
+        cout<<endl;
 
+        for(int i=0;i<8;i++){
+            cout<<"CP "<<i<<"  [";
+            if(etb.cp[i].getBateria().uid==0){
+                cout<<"NONE";
+            }
+            else{
+                cout<<"battery "<<etb.cp[i].getBateria().uid;
+                cout<<" | SoC: "<<etb.cp[i].getBateria().soc;
+                if(etb.cp[i].getstatusPC()==1){cout<<" | charging: NO";}
+                else cout<<" | charging: YES";
+            }
+            cout<<"]\n";
+        }
+    }
 }
 
 
@@ -210,9 +242,13 @@ int main(){
     bateria1.uid=2;
     bateria1.soc=85;
 
-    EstacaoCarga etc;
-    etc.addBateriaToCP(0,bateria1);
-    etc.addBateriaToCP(0,bateria1);
+    EstacaoCarga etb;
+    etb.addBateriaToCP(0,bateria1);
+    etb.addBateriaToCP(0,bateria1);
+    etb.acionarCarregamento(0);
+
+    relatorioETB(etb);
+
 
 
 
@@ -242,14 +278,14 @@ int main(){
         moto.liberarFreio();
         moto.acionarAcelerador();
         for(int j=0;j<3*60;j++,seg++){
-            if(seg%10==0){relatorio(moto);}
+            if(seg%10==0){relatorioM(moto);}
             moto.simulacao_1seg();
         }
         //10seg de frenagem
         moto.acionarFreio();
         moto.liberarAcelerador();
         for(int j=0;j<10;j++,seg++){
-            if(seg%10==0){relatorio(moto);}
+            if(seg%10==0){relatorioM(moto);}
             moto.simulacao_1seg();
         }
     }
@@ -260,14 +296,14 @@ int main(){
         moto.liberarFreio();
         moto.acionarAcelerador();
         for(int j=0;j<2*60;j++,seg++){
-            if(seg%10==0){relatorio(moto);}
+            if(seg%10==0){relatorioM(moto);}
             moto.simulacao_1seg();
         }
         //12seg de frenagem
         moto.acionarFreio();
         moto.liberarAcelerador();
         for(int j=0;j<12;j++,seg++){
-            if(seg%10==0){relatorio(moto);}
+            if(seg%10==0){relatorioM(moto);}
             moto.simulacao_1seg();
         }
     }
@@ -276,7 +312,7 @@ int main(){
     moto.liberarFreio();
     moto.acionarAcelerador();
     for(int j=0;j<100;j++,seg++){
-        if(seg%10==0){relatorio(moto);}
+        if(seg%10==0){relatorioM(moto);}
         moto.simulacao_1seg();
     }
 
@@ -284,7 +320,7 @@ int main(){
     moto.acionarFreio();
     moto.liberarAcelerador();
     for(int j=0;j<32;j++,seg++){
-        if(seg%10==0){relatorio(moto);}
+        if(seg%10==0){relatorioM(moto);}
         moto.simulacao_1seg();
     }
     
