@@ -9,6 +9,10 @@ class Bateria{
     float soc = 0;
     enum state {Idle,Attached};
     state estado = Idle;
+
+    void setAttached(){
+        estado=Attached;
+    }
 };
 
 
@@ -77,8 +81,8 @@ class Moto{
             cout<<"nao e possivel adicionar uma bateria sem id\n";
         }
         else{
-            b.estado=Attached;
             bateria=b;
+            bateria.setAttached();
         }
     }
     float getSoc(){
