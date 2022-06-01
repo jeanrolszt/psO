@@ -3,15 +3,27 @@
 
 using namespace std;
 
+class Bateria{
+    public:
+    int uid = 0;
+    float soc = 0;
+    enum state {Idle,Attached};
+    state estado = Idle;
+};
+
+
+
+
+
 class Moto{
  
     private:
     const int MAX_SPEED = 60;
     string plate;
     float speed = 0;
-    float p_bateria;
     enum state {Standby,On};
     state estado = Standby;
+    Bateria bateria;
     bool btn_freio = false, btn_acelerador = false;
 
     void freiar(){
@@ -20,22 +32,25 @@ class Moto{
     }
 
     void acelerar(){
-        if(speed<MAX_SPEED) speed+=0.2;
+        if(speed<=MAX_SPEED-0.2) speed+=0.2;
+        else speed=MAX_SPEED;
     }
 
-
     public:
-    Moto(string plate, float p_bateria):plate(plate),p_bateria(p_bateria){}
+    Moto(string plate):plate(plate){}
 
     void ligarMoto(){
-        if(btn_freio==true){
-            if(estado==Standby){
-                estado=On;
-                cout<<"Moto ligada!\n";
+        if(hasBattery()){
+            if(btn_freio==true){
+                if(estado==Standby){
+                    estado=On;
+                    cout<<"Moto ligada!\n";
+                }
+                else cout<<"A moto ja esta ligada\n";
             }
-            else cout<<"A moto ja esta ligada\n";
+            else cout<<"Acione o freio para ligar a moto!\n";
         }
-        else cout<<"Acione o freio para ligar a moto!\n";
+        else cout<<"A moto nao possui bateria\n";
     }
     
     void desligarMoto(){
@@ -52,11 +67,32 @@ class Moto{
     void acionarFreio(){btn_freio=true;}
     void liberarFreio(){btn_freio=false;}
 
-    string returnPlate(){return plate;}
+    string getPlate(){return plate;}
 
-    float returnSpeed(){return speed;}
+    float getSpeed(){return speed;}
+    float getMAX_SPEED(){return MAX_SPEED;}
     
-    float returnP_bateria(){return p_bateria;}
+    void adicionarBateria(Bateria b){
+        if(b.uid==0){
+            cout<<"nao e possivel adicionar uma bateria sem id\n";
+        }
+        else{
+            b.estado=Attached;
+            bateria=b;
+        }
+    }
+    float getSoc(){
+        return bateria.soc;
+    }
+
+    int getBatteryUid(){
+        return bateria.uid;
+    }
+
+    bool hasBattery(){
+        if(bateria.uid!=0){return true;}
+        else return false;
+    }
 
 
     void simulacao_1seg(){
@@ -67,15 +103,61 @@ class Moto{
             else if(btn_acelerador==true){
                 acelerar();
             }
+        bateria.soc= bateria.soc-0.01-((pow((speed/MAX_SPEED),2))*0.05);             
+        }
+        else if(estado==Standby){
+            bateria.soc-=0.01;
         }
     }
 };
 
+
+
+void relatorio(Moto moto){
+    cout<<"Motorcycle plate: "<<moto.getPlate()<<endl;
+    cout<<"Speed: "<<moto.getSpeed()<<endl;
+    cout<<"Attached battery UID: ";
+    if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
+    else cout<<moto.getBatteryUid()<<endl;
+    cout<<"Motorcycle battery SoC: ";
+    if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
+    else cout<<moto.getSoc()<<"%"<<endl<<endl;
+
+
+}
+
+
+
+
 int main(){
-    Moto moto("PLA2SA3",85);
+    Moto moto("PLA2SA3");
+    Bateria bateria;
+    bateria.uid=1;
+    bateria.soc=85.0;
+
+    moto.adicionarBateria(bateria);
 
     moto.acionarFreio();
     moto.ligarMoto();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //simulação completa
     int seg=0;
@@ -86,12 +168,14 @@ int main(){
         moto.liberarFreio();
         moto.acionarAcelerador();
         for(int j=0;j<3*60;j++,seg++){
+            if(seg%10==0){relatorio(moto);}
             moto.simulacao_1seg();
         }
         //10seg de frenagem
         moto.acionarFreio();
         moto.liberarAcelerador();
         for(int j=0;j<10;j++,seg++){
+            if(seg%10==0){relatorio(moto);}
             moto.simulacao_1seg();
         }
     }
@@ -102,12 +186,14 @@ int main(){
         moto.liberarFreio();
         moto.acionarAcelerador();
         for(int j=0;j<2*60;j++,seg++){
+            if(seg%10==0){relatorio(moto);}
             moto.simulacao_1seg();
         }
         //12seg de frenagem
         moto.acionarFreio();
         moto.liberarAcelerador();
         for(int j=0;j<12;j++,seg++){
+            if(seg%10==0){relatorio(moto);}
             moto.simulacao_1seg();
         }
     }
@@ -116,6 +202,7 @@ int main(){
     moto.liberarFreio();
     moto.acionarAcelerador();
     for(int j=0;j<100;j++,seg++){
+        if(seg%10==0){relatorio(moto);}
         moto.simulacao_1seg();
     }
 
@@ -123,6 +210,7 @@ int main(){
     moto.acionarFreio();
     moto.liberarAcelerador();
     for(int j=0;j<32;j++,seg++){
+        if(seg%10==0){relatorio(moto);}
         moto.simulacao_1seg();
     }
     
@@ -131,15 +219,4 @@ int main(){
     cout<<seg;
 
 
-    // for(int seg=0;seg<30*60;seg++){
-
-    //     if(seg==0||seg%10==0){
-    //         cout<<"-----------------------------------------------"<<endl;
-    //         cout<<"Motorcycle plate: "<< moto.returnPlate() <<endl;
-    //         cout<<"Speed: "<< moto.returnSpeed() <<endl;
-    //         cout<<"Motorcycle battery SoC: "<< moto.returnP_bateria() <<endl;
-    //         cout<<"-----------------------------------------------"<<endl;
-    //     }
-    //     moto.simulacao_1seg();
-    // }
 }
