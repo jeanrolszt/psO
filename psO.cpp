@@ -117,15 +117,55 @@ class Moto{
 
 
 
+
+
+
+class PontoCarga{
+    private:
+    enum state {Empty,Idle,Charging};
+    state estado = Idle;
+    Bateria bateria;
+
+    public:
+    Bateria getBateria(){
+        return bateria;
+    }
+
+    void addBateria(Bateria in){
+        if(estado==Empty){
+            bateria = in;
+            bateria.setAttached();
+        }
+        else cout<<"Ja existe uma bateria no CP!";
+    }
+
+    Bateria rmvBateria(){
+        if(estado!= Empty){
+            estado = Empty;
+            return bateria;
+        }
+        else{
+            Bateria out;
+            out.uid=0;
+            return out;
+        }
+    }
+
+};
+
+
+
 void relatorio(Moto moto){
-    cout<<"Motorcycle plate: "<<moto.getPlate()<<endl;
-    cout<<"Speed: "<<moto.getSpeed()<<endl;
-    cout<<"Attached battery UID: ";
-    if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
-    else cout<<moto.getBatteryUid()<<endl;
-    cout<<"Motorcycle battery SoC: ";
-    if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
-    else cout<<moto.getSoc()<<"%"<<endl<<endl;
+    if(false){
+        cout<<"Motorcycle plate: "<<moto.getPlate()<<endl;
+        cout<<"Speed: "<<moto.getSpeed()<<endl;
+        cout<<"Attached battery UID: ";
+        if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
+        else cout<<moto.getBatteryUid()<<endl;
+        cout<<"Motorcycle battery SoC: ";
+        if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
+        else cout<<moto.getSoc()<<"%"<<endl<<endl;
+    }
 
 
 }
@@ -134,6 +174,7 @@ void relatorio(Moto moto){
 
 
 int main(){
+
     Moto moto("PLA2SA3");
     Bateria bateria;
     bateria.uid=1;
