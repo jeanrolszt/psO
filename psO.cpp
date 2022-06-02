@@ -113,6 +113,25 @@ class Moto{
         else cout<<"A moto ja esta sem bateria\n";
         return out;
     }
+//---------------------------------
+    void simular_1seg(){
+        if(ligada){
+            if(btn_freio)freiar();
+            else if(btn_acelerador)acelear();
+        }
+        consumirBateria_1seg();
+    }
+//---------------------------------
+    void consumirBateria_1seg(){
+        if(ligada){
+            if(speed==0)bateria->setSoc(bateria->getSoc()-0.01);
+            else{
+                float new_soc = bateria->getSoc() - 0.01 - pow((speed/MAX_SPEED),2.0)*0.05;
+                bateria->setSoc(new_soc);
+            }
+        }
+        else bateria->getSoc()-0.01;
+    }
 };
 /////////////////////////////////////////////////////////////////////
 class PontoCarga{
@@ -216,16 +235,6 @@ void resumoEstacaoDeCarga(EstacaoCarga etb){
     }
 
 }
-// void resumoBateria(Bateria bateria){
-//     cout<<"\nBateria [UID: "<<bateria.getUid<<"] | [speed:"<<moto.getSpeed();
-//     cout<<"] | [battery UID: ";
-//     if(moto.getBateria())cout<<moto.getBateria()->getUid();
-//     else cout<<"NONE";
-//     cout<<"] | [soc:";
-//     if(moto.getBateria())cout<<moto.getBateria()->getSoc();
-//     else cout<<"NONE";
-//     cout<<"]\n";
-// }
 /////////////////////////////////////////////////////////////////////
 int main(){    
     //criando as baterias
