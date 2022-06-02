@@ -144,10 +144,15 @@ class EstacaoCarga{
 //---------------------------------
     PontoCarga* getPontosCargas(){return &cp[0];}
 // //---------------------------------
-//     void associarBateriaNoCP(int nCp,Bateria* in){
-//         if(cp[nCp].getBateria())cp[nCp].setBateria(in);
-//         else cout<<"Ja existe uma bateria!\n";
-//     }
+    void associarBateriaNoCP(int nCp,Bateria* in){
+        if(cp[nCp].getBateriaConectada())cout<<"Ja existe uma bateria!\n";
+        else if (in->getHost())cout<<"A bateria ja esta associada a um host!\n";
+        else{
+            cp[nCp].setBateriaConectada(true);
+            cp[nCp].setBateria(in);
+            cp[nCp].getBateria()->associarHost(this);
+        }
+    }
 // //---------------------------------
 //     void acionarCarregamento(int nCp){
 //         if(cp[nCp].getBateria()) cout<<"Nao existe bateria nesse local\n";
@@ -197,13 +202,13 @@ void resumoMoto(Moto moto){
 void resumoEstacaoDeCarga(EstacaoCarga etb){
     cout<<"Estacao de Carga [ UID:"<<etb.getUid()<<" ]\n";
     for(int i=0;i<8;i++){
-        cout<<"CP "<<i<<": [ ";
+        cout<<"CP "<<i<<": [";
         if(etb.getPontosCargas()[i].getBateriaConectada()){
             cout<<" battery UID:"<<etb.getPontosCargas()[i].getBateria()->getUid()<<" |";
             cout<<" soc:"<<etb.getPontosCargas()[i].getBateria()->getSoc()<<" |";
             cout<<" charging:";
             if(etb.getPontosCargas()[i].getBateriaCarregando())cout<<"NO ]";
-            else cout<<"YES ]";
+            else cout<<"YES ]\n";
         }
         else cout<<"NONE ]\n"; 
     }
@@ -220,7 +225,7 @@ void resumoEstacaoDeCarga(EstacaoCarga etb){
 //     cout<<"]\n";
 // }
 /////////////////////////////////////////////////////////////////////
-int main(){
+int main(){    
     //criando as baterias
     cout<<"\nCriando baterias\n";
     Bateria baterias[10];
@@ -259,6 +264,9 @@ int main(){
     //criando a Estação de Carga;
     cout<<"\nCriando Estacao de Carga\n";
     EstacaoCarga etb(1);
+    resumoEstacaoDeCarga(etb);
+    cout<<"\nAdicionado bateria na Estacao de Carga\n";
+    etb.associarBateriaNoCP(0,&baterias[1]);
     resumoEstacaoDeCarga(etb);
 
 
