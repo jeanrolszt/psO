@@ -216,7 +216,7 @@ void relatorio(Moto moto,EstacaoCarga etb){
                 if(etb.cp[i].getstatusPC()==1){cout<<" | charging: NO";}
                 else cout<<" | charging: YES";
             }
-            cout<<"]\n";
+            cout<<"]\n\n";
         }
     }
 }
