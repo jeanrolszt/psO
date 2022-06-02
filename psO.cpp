@@ -188,8 +188,8 @@ class EstacaoCarga{
 
 
 
-void relatorioM(Moto moto){
-    if(false){
+void relatorio(Moto moto,EstacaoCarga etb){
+    if(true){
         cout<<"Motorcycle plate: "<<moto.getPlate()<<endl;
         cout<<"Speed: "<<moto.getSpeed()<<endl;
         cout<<"Attached battery UID: ";
@@ -199,9 +199,6 @@ void relatorioM(Moto moto){
         if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
         else cout<<moto.getSoc()<<"%"<<endl<<endl;
     }
-}
-
-void relatorioETB(EstacaoCarga etb){
     if(true){
         cout<<"ETB ID: ";
         if(etb.getUid()==0)cout<<"NULL";
@@ -224,9 +221,6 @@ void relatorioETB(EstacaoCarga etb){
     }
 }
 
-
-
-
 int main(){
 
     Moto moto("PLA2SA3");
@@ -244,10 +238,8 @@ int main(){
 
     EstacaoCarga etb;
     etb.addBateriaToCP(0,bateria1);
-    etb.addBateriaToCP(0,bateria1);
+    etb.addBateriaToCP(7,bateria1);
     etb.acionarCarregamento(0);
-
-    relatorioETB(etb);
 
 
 
@@ -278,14 +270,14 @@ int main(){
         moto.liberarFreio();
         moto.acionarAcelerador();
         for(int j=0;j<3*60;j++,seg++){
-            if(seg%10==0){relatorioM(moto);}
+            if(seg%10==0){relatorio(moto,etb);}
             moto.simulacao_1seg();
         }
         //10seg de frenagem
         moto.acionarFreio();
         moto.liberarAcelerador();
         for(int j=0;j<10;j++,seg++){
-            if(seg%10==0){relatorioM(moto);}
+            if(seg%10==0){relatorio(moto,etb);}
             moto.simulacao_1seg();
         }
     }
@@ -296,14 +288,14 @@ int main(){
         moto.liberarFreio();
         moto.acionarAcelerador();
         for(int j=0;j<2*60;j++,seg++){
-            if(seg%10==0){relatorioM(moto);}
+            if(seg%10==0){relatorio(moto,etb);}
             moto.simulacao_1seg();
         }
         //12seg de frenagem
         moto.acionarFreio();
         moto.liberarAcelerador();
         for(int j=0;j<12;j++,seg++){
-            if(seg%10==0){relatorioM(moto);}
+            if(seg%10==0){relatorio(moto,etb);}
             moto.simulacao_1seg();
         }
     }
@@ -312,7 +304,7 @@ int main(){
     moto.liberarFreio();
     moto.acionarAcelerador();
     for(int j=0;j<100;j++,seg++){
-        if(seg%10==0){relatorioM(moto);}
+        if(seg%10==0){relatorio(moto,etb);}
         moto.simulacao_1seg();
     }
 
@@ -320,7 +312,7 @@ int main(){
     moto.acionarFreio();
     moto.liberarAcelerador();
     for(int j=0;j<32;j++,seg++){
-        if(seg%10==0){relatorioM(moto);}
+        if(seg%10==0){relatorio(moto,etb);}
         moto.simulacao_1seg();
     }
     
