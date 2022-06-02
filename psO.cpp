@@ -117,7 +117,7 @@ class Moto{
     void simular_1seg(){
         if(ligada){
             if(btn_freio)freiar();
-            else if(btn_acelerador)acelear();
+            else if(btn_acelerador)acelerar();
         }
         consumirBateria_1seg();
     }
@@ -203,7 +203,7 @@ class EstacaoCarga{
     int getNBateriasCarregando(){
         int count=0;
         for(int i=0;i<8;i++){
-            if(cp[i].getBateriaCarregando)count++;
+            if(cp[i].getBateriaCarregando())count++;
         }
         return count;
     }
@@ -275,25 +275,21 @@ int main(){
     //criando a Estação de Carga;
     cout<<"\nCriando Estacao de Carga\n";
     EstacaoCarga etb(1);
-    resumoEstacaoDeCarga(etb);
-    cout<<"\nAdicionado bateria na Estacao de Carga\n";
-    etb.associarBateriaNoCP(0,&baterias[1]);
-    resumoEstacaoDeCarga(etb);
-    etb.associarBateriaNoCP(1,&baterias[0]);
-    resumoEstacaoDeCarga(etb);
+
     etb.associarBateriaNoCP(1,&baterias[1]);
     etb.associarBateriaNoCP(2,&baterias[2]);
     etb.associarBateriaNoCP(3,&baterias[3]);
     etb.associarBateriaNoCP(4,&baterias[4]);
     etb.associarBateriaNoCP(5,&baterias[5]);
     etb.associarBateriaNoCP(6,&baterias[6]);
-    resumoEstacaoDeCarga(etb);
 
-    Bateria* saida = etb.liberarBateriaDoCP(6);
-    resumoEstacaoDeCarga(etb);
-
-    cout<<etb.getNBaterias();
-
+    baterias[0].setSoc(85);
+    moto.acionarFreio();
+    moto.ligarMoto();
+    moto.acionarAcelerador();
+    moto.liberarFreio();
+    moto.simular_1seg();
+    resumoMoto(moto);
 
 
 
