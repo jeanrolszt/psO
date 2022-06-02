@@ -118,81 +118,104 @@ class Moto{
 class PontoCarga{
     private:
     Bateria* bateria;
+    bool bateriaConectada=false;
+    bool bateriaCarregando=false;
 //---------------------------------
     public:
+    void setBateria(Bateria* in){bateria=in;}
     Bateria* getBateria(){return bateria;}
 //---------------------------------
-    void setBateria(Bateria* in){bateria=in;}
+    void setBateriaConectada(bool in){bateriaConectada = in;}
+    bool getBateriaConectada(){return bateriaConectada;}
+//---------------------------------
+    void setBateriaCarregando(bool in){bateriaCarregando = in;}
+    bool getBateriaCarregando(){return bateriaCarregando;}
 };
 ////////////////////////////////////////////////////////////////////
 class EstacaoCarga{
     private:
     int uid;
     PontoCarga cp[8];
-    bool statusCp[8];
 //---------------------------------   
     public:
-    EstacaoCarga(int in){ //metodo construtor
-        uid=in;
-        for(int i=0;i<8;i++){
-            statusCp[i]=false;
-        }
-    }
+    EstacaoCarga(int in){uid=in;} //metodo construtor
 //---------------------------------
     int getUid(){return uid;}
 //---------------------------------
     PontoCarga* getPontosCargas(){return &cp[0];}
-//---------------------------------
-    void associarBateriaNoCP(int nCp,Bateria* in){
-        if(cp[nCp].getBateria())cp[nCp].setBateria(in);
-        else cout<<"Ja existe uma bateria!\n";
-    }
-//---------------------------------
-    void acionarCarregamento(int nCp){
-        if(cp[nCp].getBateria()) cout<<"Nao existe bateria nesse local\n";
-        else statusCp[nCp]=true;
-    }
-//---------------------------------    
-    void desativarCarregamento(int nCp){
-        if(cp[nCp].getBateria()) cout<<"Nao existe bateria nesse local\n";
-        else statusCp[nCp]=false;
-    }
-//---------------------------------
-    Bateria* liberarBateriaDoCP(int nCp){
-        Bateria* out=cp[nCp].getBateria();
-        if(cp[nCp].getBateria())cp[nCp].setBateria(NULL);
-        else cout<<"A moto ja esta sem bateria\n";
-        return out;
-    }
-//---------------------------------
-    int getNBaterias(){
-        int count=0;
-        for(int i=0;i<8;i++){
-            if(cp[i].getBateria())count++;
-        }
-        return count;
-    }
-//---------------------------------
-    int getNBateriasCarregando(){
-        int count=0;
-        for(int i=0;i<8;i++){
-            if(statusCp[i])count++;
-        }
-        return count;
-    }
+// //---------------------------------
+//     void associarBateriaNoCP(int nCp,Bateria* in){
+//         if(cp[nCp].getBateria())cp[nCp].setBateria(in);
+//         else cout<<"Ja existe uma bateria!\n";
+//     }
+// //---------------------------------
+//     void acionarCarregamento(int nCp){
+//         if(cp[nCp].getBateria()) cout<<"Nao existe bateria nesse local\n";
+//         else statusCp[nCp]=true;
+//     }
+// //---------------------------------    
+//     void desativarCarregamento(int nCp){
+//         if(cp[nCp].getBateria()) cout<<"Nao existe bateria nesse local\n";
+//         else statusCp[nCp]=false;
+//     }
+// //---------------------------------
+//     Bateria* liberarBateriaDoCP(int nCp){
+//         Bateria* out=cp[nCp].getBateria();
+//         if(cp[nCp].getBateria())cp[nCp].setBateria(NULL);
+//         else cout<<"A moto ja esta sem bateria\n";
+//         return out;
+//     }
+// //---------------------------------
+//     int getNBaterias(){
+//         int count=0;
+//         for(int i=0;i<8;i++){
+//             if(cp[i].getBateria())count++;
+//         }
+//         return count;
+//     }
+// //---------------------------------
+//     int getNBateriasCarregando(){
+//         int count=0;
+//         for(int i=0;i<8;i++){
+//             if(statusCp[i])count++;
+//         }
+//         return count;
+//     }
 };
 /////////////////////////////////////////////////////////////////////
 void resumoMoto(Moto moto){
-    cout<<"Moto [plate: "<<moto.getPlate()<<"] | [speed:"<<moto.getSpeed();
-    cout<<"] | [battery UID: ";
+    cout<<"Moto [ plate:"<<moto.getPlate()<<" | speed:"<<moto.getSpeed();
+    cout<<" | battery UID:";
     if(moto.getBateria())cout<<moto.getBateria()->getUid();
     else cout<<"NONE";
-    cout<<"] | [soc:";
+    cout<<" | soc:";
     if(moto.getBateria())cout<<moto.getBateria()->getSoc();
     else cout<<"NONE";
-    cout<<"] | [btn_freio:"<<moto.freioAcionado()<<"] | [btn_acelerador:"<<moto.aceleradorAcionado()<<"]\n";
+    cout<<" | btn_freio:"<<moto.freioAcionado()<<" | btn_acelerador:"<<moto.aceleradorAcionado()<<" ]\n";
 }
 /////////////////////////////////////////////////////////////////////
+void resumoEstacaoDeCarga(EstacaoCarga etb){
+    cout<<"Estacao de Carga [ UID:"<<etb.getUid()<<" ]\n";
+    for(int i=0;i<8;i++){
+        cout<<"CP "<<i<<": [ ";
+        if(etb.getPontosCargas()[i].getBateriaConectada()){
+            cout<<" battery UID:"<<etb.getPontosCargas()[i].getBateria()->getUid()<<" |";
+            cout<<" soc:"<<etb.getPontosCargas()[i].getBateria()->getSoc()<<" |";
+            cout<<" charging:";
+            if(etb.getPontosCargas()[i].getBateriaCarregando())cout<<"NO ]";
+            else cout<<"YES ]";
+        }
+        else cout<<"NONE ]\n"; 
+        // <<etb.getPontosCargas()->getBateria()->getUid();
+        // cout<<etb.getPontosCargas()[i].getBateria();
+        // if(etb.getPontosCargas()[i].getBateria()->getHost()==NULL)cout<<"NULL]\n";
+        // if(cp[i].bateria==NULL)cout<<"NULL]\n";
+        // else{
+        //     cout<<"battery UID:";
+        // }
+    }
+
+}
 // void resumoBateria(Bateria bateria){
 //     cout<<"\nBateria [UID: "<<bateria.getUid<<"] | [speed:"<<moto.getSpeed();
 //     cout<<"] | [battery UID: ";
@@ -243,7 +266,7 @@ int main(){
     //criando a Estação de Carga;
     cout<<"\nCriando Estacao de Carga\n";
     EstacaoCarga etb(1);
-    cout<<"Estacao de Carga UID: "<<etb.getUid()<<endl;
+    resumoEstacaoDeCarga(etb);
 
 
 
