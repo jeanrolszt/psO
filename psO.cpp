@@ -164,13 +164,15 @@ class EstacaoCarga{
         else cout<<"Nao existe bateria nesse local\n";
     }
 //---------------------------------
-//     Bateria* liberarBateriaDoCP(int nCp){
-//         Bateria* out=cp[nCp].getBateria();
-//         if(cp[nCp].getBateria())cp[nCp].setBateria(NULL);
-//         else cout<<"A moto ja esta sem bateria\n";
-//         return out;
-//     }
-// //---------------------------------
+    Bateria* liberarBateriaDoCP(int nCp){
+        Bateria* out=cp[nCp].getBateria();
+        if(cp[nCp].getBateriaConectada()){
+            cp[nCp].setBateriaConectada(false);
+        }
+        else cout<<"A moto ja esta sem bateria\n";
+        return out;
+    }
+//---------------------------------
 //     int getNBaterias(){
 //         int count=0;
 //         for(int i=0;i<8;i++){
@@ -277,6 +279,10 @@ int main(){
     etb.associarBateriaNoCP(5,&baterias[5]);
     etb.associarBateriaNoCP(6,&baterias[6]);
     resumoEstacaoDeCarga(etb);
+
+    Bateria* saida = etb.liberarBateriaDoCP(6);
+    resumoEstacaoDeCarga(etb);
+
 
 
 
