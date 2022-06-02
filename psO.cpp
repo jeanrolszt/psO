@@ -183,14 +183,37 @@ class EstacaoCarga{
     public:
     PontoCarga cp[8];
     int getUid(){return uid;}
+
     void addBateriaToCP(int nCp,Bateria in){
         cp[nCp].addBateria(in);
     }
+
     void acionarCarregamento(int nCp){
         cp[nCp].startCharging();
     }
+    
     void desativarCarregamento(int nCp){
         cp[nCp].stopCharging();
+    }
+
+    Bateria rmvBateriaFromCP(int nCp){
+        return cp[nCp].rmvBateria();
+    }
+
+    int getNBaterias(){
+        int count=0;
+        for(int i=0;i<8;i++){
+            if(cp[i].getstatusPC()!=0)count++;
+        }
+        return count;
+    }
+
+    int getNBateriasCarregando(){
+        int count=0;
+        for(int i=0;i<8;i++){
+            if(cp[i].getstatusPC()==2)count++;
+        }
+        return count;
     }
 
 };
@@ -198,7 +221,7 @@ class EstacaoCarga{
 
 
 void relatorio(Moto moto,EstacaoCarga etb){
-    if(true){
+    if(false){
         cout<<"Motorcycle plate: "<<moto.getPlate()<<endl;
         cout<<"Speed: "<<moto.getSpeed()<<endl;
         cout<<"Attached battery UID: ";
@@ -208,7 +231,7 @@ void relatorio(Moto moto,EstacaoCarga etb){
         if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
         else cout<<moto.getSoc()<<"%"<<endl<<endl;
     }
-    if(true){
+    if(false){
         cout<<"ETB ID: ";
         if(etb.getUid()==0)cout<<"NULL";
         else cout<<etb.getUid();
@@ -250,7 +273,8 @@ int main(){
     etb.addBateriaToCP(7,bateria1);
     etb.acionarCarregamento(0);
     etb.acionarCarregamento(7);
-    etb.desativarCarregamento(0); 
+    etb.desativarCarregamento(0);
+
 
 
 
