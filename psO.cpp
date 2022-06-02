@@ -94,9 +94,12 @@ class Moto{
 //---------------------------------
     void liberarFreio(){btn_freio=false;}
 //---------------------------------
-    void adicionarBateria(Bateria* in){
+    void associarBateria(Bateria* in){
         if(bateria)cout<<"Ja existe uma bateria!\n";
-        else bateria=in;
+        else {
+            bateria=in;
+            bateria->associarHost(this);
+        }
     }
 //---------------------------------
     Bateria* liberarBateria(){
@@ -174,48 +177,54 @@ class EstacaoCarga{
     }
 };
 /////////////////////////////////////////////////////////////////////
-// void relatorio(Moto moto,EstacaoCarga etb){
-//     if(false){
-//         cout<<"Motorcycle plate: "<<moto.getPlate()<<endl;
-//         cout<<"Speed: "<<moto.getSpeed()<<endl;
-//         cout<<"Attached battery UID: ";
-//         if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
-//         else cout<<moto.getBatteryUid()<<endl;
-//         cout<<"Motorcycle battery SoC: ";
-//         if(moto.getBatteryUid()==0){cout<<"NONE"<<endl;}
-//         else cout<<moto.getSoc()<<"%"<<endl<<endl;
-//     }
-//     if(false){
-//         cout<<"ETB ID: ";
-//         if(etb.getUid()==0)cout<<"NULL";
-//         else cout<<etb.getUid();
-//         cout<<endl;
-
-//         for(int i=0;i<8;i++){
-//             cout<<"CP "<<i<<"  [";
-//             if(etb.cp[i].getBateria().uid==0){
-//                 cout<<"NONE";
-//             }
-//             else{
-//                 cout<<"battery "<<etb.cp[i].getBateria().uid;
-//                 cout<<" | SoC: "<<etb.cp[i].getBateria().soc;
-//                 if(etb.cp[i].getstatusPC()==1){cout<<" | charging: NO";}
-//                 else cout<<" | charging: YES";
-//             }
-//             cout<<"]\n\n";
-//         }
-//     }
+void resumoMoto(Moto moto){
+    cout<<"\nMoto [plate: "<<moto.getPlate()<<"] | [speed:"<<moto.getSpeed();
+    cout<<"] | [battery UID: ";
+    if(moto.getBateria())cout<<moto.getBateria()->getUid();
+    else cout<<"NONE";
+    cout<<"] | [soc:";
+    if(moto.getBateria())cout<<moto.getBateria()->getSoc();
+    else cout<<"NONE";
+    cout<<"]\n";
+}
+/////////////////////////////////////////////////////////////////////
+// void resumoBateria(Bateria bateria){
+//     cout<<"\nBateria [UID: "<<bateria.getUid<<"] | [speed:"<<moto.getSpeed();
+//     cout<<"] | [battery UID: ";
+//     if(moto.getBateria())cout<<moto.getBateria()->getUid();
+//     else cout<<"NONE";
+//     cout<<"] | [soc:";
+//     if(moto.getBateria())cout<<moto.getBateria()->getSoc();
+//     else cout<<"NONE";
+//     cout<<"]\n";
 // }
 /////////////////////////////////////////////////////////////////////
 int main(){
     //criando a moto
+    cout<<"\nCriando a moto";
     Moto moto("PLA2SA3");
+    resumoMoto(moto);
     
     //criando as baterias;
+    cout<<"\nCriando baterias\n";
     Bateria baterias[10];
+    for(int i=0;i<10;i++){
+        baterias[i].setUid(i+1);
+        cout<<baterias[i].getUid()<<endl;
+    }
+
 
     //criando a Estação de Carga;
+    cout<<"\nCriando Estacao de Carga\n";
     EstacaoCarga etb(1);
+    cout<<"Estacao de Carga UID: "<<etb.getUid()<<endl;
+
+    //adicionando baterias
+    cout<<"\nAdicionando Bateria UID: "<<baterias[0].getUid()<<" na Moto Placa: "<<moto.getPlate()<<endl;
+    moto.associarBateria(&baterias[0]);
+    resumoMoto(moto);
+
+
 
     // bateria.uid=1;
     // bateria.soc=85.0;
