@@ -143,7 +143,7 @@ class EstacaoCarga{
     int getUid(){return uid;}
 //---------------------------------
     PontoCarga* getPontosCargas(){return &cp[0];}
-// //---------------------------------
+//---------------------------------
     void associarBateriaNoCP(int nCp,Bateria* in){
         if(cp[nCp].getBateriaConectada())cout<<"Ja existe uma bateria!\n";
         else if (in->getHost())cout<<"A bateria ja esta associada a um host!\n";
@@ -153,12 +153,12 @@ class EstacaoCarga{
             cp[nCp].getBateria()->associarHost(this);
         }
     }
-// //---------------------------------
-//     void acionarCarregamento(int nCp){
-//         if(cp[nCp].getBateria()) cout<<"Nao existe bateria nesse local\n";
-//         else statusCp[nCp]=true;
-//     }
-// //---------------------------------    
+//---------------------------------
+    void acionarCarregamento(int nCp){
+        if(cp[nCp].getBateriaConectada()) cp[nCp].setBateriaCarregando(true);
+        else cout<<"Nao existe bateria nesse local\n";
+    }
+//---------------------------------    
 //     void desativarCarregamento(int nCp){
 //         if(cp[nCp].getBateria()) cout<<"Nao existe bateria nesse local\n";
 //         else statusCp[nCp]=false;
