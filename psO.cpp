@@ -144,11 +144,18 @@ class PontoCarga{
         else cout<<"Ja existe uma bateria no CP!\n";
     }
 
-    void startingCharging(){
+    void startCharging(){
         if(estado){
             estado=Charging;
         }
     }
+
+    void stopCharging(){
+        if(estado){
+            estado=Idle;
+        }
+    }
+
 
     Bateria rmvBateria(){
         if(estado!= Empty){
@@ -180,9 +187,11 @@ class EstacaoCarga{
         cp[nCp].addBateria(in);
     }
     void acionarCarregamento(int nCp){
-        cp[nCp].startingCharging();
+        cp[nCp].startCharging();
     }
-
+    void desativarCarregamento(int nCp){
+        cp[nCp].stopCharging();
+    }
 
 };
 
@@ -240,6 +249,8 @@ int main(){
     etb.addBateriaToCP(0,bateria1);
     etb.addBateriaToCP(7,bateria1);
     etb.acionarCarregamento(0);
+    etb.acionarCarregamento(7);
+    etb.desativarCarregamento(0); 
 
 
 
