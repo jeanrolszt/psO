@@ -173,14 +173,14 @@ class EstacaoCarga{
         return out;
     }
 //---------------------------------
-//     int getNBaterias(){
-//         int count=0;
-//         for(int i=0;i<8;i++){
-//             if(cp[i].getBateria())count++;
-//         }
-//         return count;
-//     }
-// //---------------------------------
+    int getNBaterias(){
+        int count=0;
+        for(int i=0;i<8;i++){
+            if(cp[i].getBateriaConectada())count++;
+        }
+        return count;
+    }
+//---------------------------------
 //     int getNBateriasCarregando(){
 //         int count=0;
 //         for(int i=0;i<8;i++){
@@ -282,6 +282,8 @@ int main(){
 
     Bateria* saida = etb.liberarBateriaDoCP(6);
     resumoEstacaoDeCarga(etb);
+
+    cout<<etb.getNBaterias();
 
 
 
