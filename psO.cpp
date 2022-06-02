@@ -206,13 +206,6 @@ void resumoEstacaoDeCarga(EstacaoCarga etb){
             else cout<<"YES ]";
         }
         else cout<<"NONE ]\n"; 
-        // <<etb.getPontosCargas()->getBateria()->getUid();
-        // cout<<etb.getPontosCargas()[i].getBateria();
-        // if(etb.getPontosCargas()[i].getBateria()->getHost()==NULL)cout<<"NULL]\n";
-        // if(cp[i].bateria==NULL)cout<<"NULL]\n";
-        // else{
-        //     cout<<"battery UID:";
-        // }
     }
 
 }
