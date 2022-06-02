@@ -181,13 +181,13 @@ class EstacaoCarga{
         return count;
     }
 //---------------------------------
-//     int getNBateriasCarregando(){
-//         int count=0;
-//         for(int i=0;i<8;i++){
-//             if(statusCp[i])count++;
-//         }
-//         return count;
-//     }
+    int getNBateriasCarregando(){
+        int count=0;
+        for(int i=0;i<8;i++){
+            if(cp[i].getBateriaCarregando)count++;
+        }
+        return count;
+    }
 };
 /////////////////////////////////////////////////////////////////////
 void resumoMoto(Moto moto){
