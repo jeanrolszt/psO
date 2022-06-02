@@ -99,8 +99,8 @@ class Moto{
     void liberarFreio(){btn_freio=false;}
 //---------------------------------
     void associarBateria(Bateria* in){
-        if(bateria)cout<<"Ja existe uma bateria!\n";
-        else if(bateria->getHost())cout<<"A bateria ja esta associada a um host!\n";
+        if (bateria) cout<<"Ja existe uma bateria!\n";
+        else if (in->getHost())cout<<"A bateria ja esta associada a um host!\n";
         else{
             bateria=in;
             bateria->associarHost(this);
@@ -205,6 +205,14 @@ void resumoMoto(Moto moto){
 // }
 /////////////////////////////////////////////////////////////////////
 int main(){
+    //criando as baterias
+    cout<<"\nCriando baterias\n";
+    Bateria baterias[10];
+    for(int i=0;i<10;i++){
+        baterias[i].setUid(i+1);
+        cout<<baterias[i].getUid()<<endl;
+    }
+
     //criando a moto
     cout<<"\nCriando a moto\n";
     Moto moto("PLA2SA3");
@@ -223,25 +231,22 @@ int main(){
     moto.liberarFreio();
     resumoMoto(moto);
 
-    
-    //criando as baterias;
-    cout<<"\nCriando baterias\n";
-    Bateria baterias[10];
-    for(int i=0;i<10;i++){
-        baterias[i].setUid(i+1);
-        cout<<baterias[i].getUid()<<endl;
-    }
-
+    //adicionando baterias na moto
+    cout<<"\nAdicionando Bateria UID: "<<baterias[0].getUid()<<" na Moto Placa: "<<moto.getPlate()<<endl;
+    moto.associarBateria(&baterias[0]);
+    resumoMoto(moto);
+    //testando adicionar outras baterias
+    cout<<"\nAdicionando Bateria UID: "<<baterias[0].getUid()<<" na Moto Placa: "<<moto.getPlate()<<endl;
+    moto.associarBateria(&baterias[1]);
+    resumoMoto(moto);
 
     //criando a Estação de Carga;
     cout<<"\nCriando Estacao de Carga\n";
     EstacaoCarga etb(1);
     cout<<"Estacao de Carga UID: "<<etb.getUid()<<endl;
 
-    //adicionando baterias
-    cout<<"\nAdicionando Bateria UID: "<<baterias[0].getUid()<<" na Moto Placa: "<<moto.getPlate()<<endl;
-    moto.associarBateria(&baterias[0]);
-    resumoMoto(moto);
+
+
 
 
 
