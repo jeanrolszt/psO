@@ -159,11 +159,11 @@ class EstacaoCarga{
         else cout<<"Nao existe bateria nesse local\n";
     }
 //---------------------------------    
-//     void desativarCarregamento(int nCp){
-//         if(cp[nCp].getBateria()) cout<<"Nao existe bateria nesse local\n";
-//         else statusCp[nCp]=false;
-//     }
-// //---------------------------------
+    void desativarCarregamento(int nCp){
+        if(cp[nCp].getBateriaConectada()) cp[nCp].setBateriaCarregando(false);
+        else cout<<"Nao existe bateria nesse local\n";
+    }
+//---------------------------------
 //     Bateria* liberarBateriaDoCP(int nCp){
 //         Bateria* out=cp[nCp].getBateria();
 //         if(cp[nCp].getBateria())cp[nCp].setBateria(NULL);
