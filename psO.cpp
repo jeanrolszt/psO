@@ -27,8 +27,8 @@ class Bateria{
     void* getHost(){return host;}
 //---------------------------------
     void associarHost(void* in){
-        if(host)host=in;
-        else cout<<"Nao foi possivell associar, a bateria já contem um host.\n";
+        if(host)cout<<"Nao foi possivell associar, a bateria já contem um host.\n";
+        else host=in;
     }
 //---------------------------------
     void desassociarHost(){
@@ -64,6 +64,10 @@ class Moto{
 //---------------------------------
     Bateria* getBateria(){return bateria;}
 //---------------------------------
+    bool freioAcionado(){return btn_freio;}
+//---------------------------------
+    bool aceleradorAcionado(){return btn_acelerador;}
+//---------------------------------
     void ligarMoto(){
         if(bateria){
             if(speed==0){
@@ -96,7 +100,8 @@ class Moto{
 //---------------------------------
     void associarBateria(Bateria* in){
         if(bateria)cout<<"Ja existe uma bateria!\n";
-        else {
+        else if(bateria->getHost())cout<<"A bateria ja esta associada a um host!\n";
+        else{
             bateria=in;
             bateria->associarHost(this);
         }
@@ -178,14 +183,14 @@ class EstacaoCarga{
 };
 /////////////////////////////////////////////////////////////////////
 void resumoMoto(Moto moto){
-    cout<<"\nMoto [plate: "<<moto.getPlate()<<"] | [speed:"<<moto.getSpeed();
+    cout<<"Moto [plate: "<<moto.getPlate()<<"] | [speed:"<<moto.getSpeed();
     cout<<"] | [battery UID: ";
     if(moto.getBateria())cout<<moto.getBateria()->getUid();
     else cout<<"NONE";
     cout<<"] | [soc:";
     if(moto.getBateria())cout<<moto.getBateria()->getSoc();
     else cout<<"NONE";
-    cout<<"]\n";
+    cout<<"] | [btn_freio:"<<moto.freioAcionado()<<"] | [btn_acelerador:"<<moto.aceleradorAcionado()<<"]\n";
 }
 /////////////////////////////////////////////////////////////////////
 // void resumoBateria(Bateria bateria){
@@ -201,9 +206,23 @@ void resumoMoto(Moto moto){
 /////////////////////////////////////////////////////////////////////
 int main(){
     //criando a moto
-    cout<<"\nCriando a moto";
+    cout<<"\nCriando a moto\n";
     Moto moto("PLA2SA3");
     resumoMoto(moto);
+
+    //testando botoes
+    cout<<"\nTestando acelerador e freio\n";
+    cout<<"freio\n";
+    moto.acionarFreio();
+    resumoMoto(moto);
+    cout<<"acelerador\n";
+    moto.acionarAcelerador();
+    resumoMoto(moto);
+    cout<<"soltando\n";
+    moto.liberarAcelerador();
+    moto.liberarFreio();
+    resumoMoto(moto);
+
     
     //criando as baterias;
     cout<<"\nCriando baterias\n";
@@ -223,6 +242,10 @@ int main(){
     cout<<"\nAdicionando Bateria UID: "<<baterias[0].getUid()<<" na Moto Placa: "<<moto.getPlate()<<endl;
     moto.associarBateria(&baterias[0]);
     resumoMoto(moto);
+
+
+
+
 
 
 
@@ -324,5 +347,6 @@ int main(){
 
     // cout<<seg;
 
+    return 0;
 
 }
