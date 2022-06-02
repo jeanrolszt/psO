@@ -3,22 +3,20 @@
 
 using namespace std;
 
+
+////////////////////////////////////////////////////////////////////
 class Bateria{
     public:
     int uid = 0;
     float soc = 0;
     enum state {Idle,Attached};
     state estado = Idle;
-
+//---------------------------------
     void setAttached(){
         estado=Attached;
     }
 };
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////
 class Moto{
  
     private:
@@ -29,20 +27,20 @@ class Moto{
     state estado = Standby;
     Bateria bateria;
     bool btn_freio = false, btn_acelerador = false;
-
+//---------------------------------
     void freiar(){
         if(speed>=2.0) speed-=2.0;
         else speed=0.0;
     }
-
+//---------------------------------
     void acelerar(){
         if(speed<=MAX_SPEED-0.2) speed+=0.2;
         else speed=MAX_SPEED;
     }
-
+//---------------------------------
     public:
     Moto(string plate):plate(plate){}
-
+//---------------------------------
     void ligarMoto(){
         if(hasBattery()){
             if(btn_freio==true){
@@ -56,7 +54,7 @@ class Moto{
         }
         else cout<<"A moto nao possui bateria\n";
     }
-    
+//---------------------------------    
     void desligarMoto(){
         if(estado==On){
             estado=Standby;
@@ -64,18 +62,21 @@ class Moto{
         }
         else cout<<"A moto ja esta desligada\n";
     }
-
+//---------------------------------
     void acionarAcelerador(){btn_acelerador=true;}
+//---------------------------------
     void liberarAcelerador(){btn_acelerador=false;}
-
+//---------------------------------
     void acionarFreio(){btn_freio=true;}
+//---------------------------------
     void liberarFreio(){btn_freio=false;}
-
+//---------------------------------
     string getPlate(){return plate;}
-
+//---------------------------------
     float getSpeed(){return speed;}
+//---------------------------------
     float getMAX_SPEED(){return MAX_SPEED;}
-    
+//---------------------------------
     void adicionarBateria(Bateria b){
         if(b.uid==0){
             cout<<"nao e possivel adicionar uma bateria sem id\n";
@@ -85,20 +86,20 @@ class Moto{
             bateria.setAttached();
         }
     }
+//---------------------------------
     float getSoc(){
         return bateria.soc;
     }
-
+//---------------------------------
     int getBatteryUid(){
         return bateria.uid;
     }
-
+//---------------------------------
     bool hasBattery(){
         if(bateria.uid!=0){return true;}
         else return false;
     }
-
-
+//---------------------------------
     void simulacao_1seg(){
         if(estado==On){
             if(btn_freio==true){
@@ -114,27 +115,22 @@ class Moto{
         }
     }
 };
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////
 class PontoCarga{
     private:
     enum state {Empty,Idle,Charging};
     state estado = Empty;
     Bateria bateria;
-
+//---------------------------------
     public:
     Bateria getBateria(){
         return bateria;
     }
-
+//---------------------------------
     int getstatusPC(){
         return estado;
     }
-
+//---------------------------------
     void addBateria(Bateria in){
         if(estado==Empty){
             bateria = in;
@@ -143,20 +139,19 @@ class PontoCarga{
         }
         else cout<<"Ja existe uma bateria no CP!\n";
     }
-
+//---------------------------------
     void startCharging(){
         if(estado){
             estado=Charging;
         }
     }
-
+//---------------------------------
     void stopCharging(){
         if(estado){
             estado=Idle;
         }
     }
-
-
+//---------------------------------
     Bateria rmvBateria(){
         if(estado!= Empty){
             estado = Empty;
@@ -168,13 +163,8 @@ class PontoCarga{
             return out;
         }
     }
-
 };
-
-
-
-
-
+////////////////////////////////////////////////////////////////////
 class EstacaoCarga{
     private:
     int uid;
@@ -182,24 +172,25 @@ class EstacaoCarga{
 
     public:
     PontoCarga cp[8];
+//---------------------------------   
     int getUid(){return uid;}
-
+//---------------------------------
     void addBateriaToCP(int nCp,Bateria in){
         cp[nCp].addBateria(in);
     }
-
+//---------------------------------
     void acionarCarregamento(int nCp){
         cp[nCp].startCharging();
     }
-    
+//---------------------------------    
     void desativarCarregamento(int nCp){
         cp[nCp].stopCharging();
     }
-
+//---------------------------------
     Bateria rmvBateriaFromCP(int nCp){
         return cp[nCp].rmvBateria();
     }
-
+//---------------------------------
     int getNBaterias(){
         int count=0;
         for(int i=0;i<8;i++){
@@ -207,7 +198,7 @@ class EstacaoCarga{
         }
         return count;
     }
-
+//---------------------------------
     int getNBateriasCarregando(){
         int count=0;
         for(int i=0;i<8;i++){
@@ -215,11 +206,8 @@ class EstacaoCarga{
         }
         return count;
     }
-
 };
-
-
-
+/////////////////////////////////////////////////////////////////////
 void relatorio(Moto moto,EstacaoCarga etb){
     if(false){
         cout<<"Motorcycle plate: "<<moto.getPlate()<<endl;
@@ -252,7 +240,7 @@ void relatorio(Moto moto,EstacaoCarga etb){
         }
     }
 }
-
+/////////////////////////////////////////////////////////////////////
 int main(){
 
     Moto moto("PLA2SA3");
