@@ -207,10 +207,10 @@ void resumoEstacaoDeCarga(EstacaoCarga etb){
             cout<<" battery UID:"<<etb.getPontosCargas()[i].getBateria()->getUid()<<" |";
             cout<<" soc:"<<etb.getPontosCargas()[i].getBateria()->getSoc()<<" |";
             cout<<" charging:";
-            if(etb.getPontosCargas()[i].getBateriaCarregando())cout<<"NO ]";
-            else cout<<"YES ]\n";
+            if(etb.getPontosCargas()[i].getBateriaCarregando())cout<<"YES ]";
+            else cout<<"NO ]\n";
         }
-        else cout<<"NONE ]\n"; 
+        else cout<<" NONE ]\n"; 
     }
 
 }
@@ -267,6 +267,15 @@ int main(){
     resumoEstacaoDeCarga(etb);
     cout<<"\nAdicionado bateria na Estacao de Carga\n";
     etb.associarBateriaNoCP(0,&baterias[1]);
+    resumoEstacaoDeCarga(etb);
+    etb.associarBateriaNoCP(1,&baterias[0]);
+    resumoEstacaoDeCarga(etb);
+    etb.associarBateriaNoCP(1,&baterias[1]);
+    etb.associarBateriaNoCP(2,&baterias[2]);
+    etb.associarBateriaNoCP(3,&baterias[3]);
+    etb.associarBateriaNoCP(4,&baterias[4]);
+    etb.associarBateriaNoCP(5,&baterias[5]);
+    etb.associarBateriaNoCP(6,&baterias[6]);
     resumoEstacaoDeCarga(etb);
 
 
