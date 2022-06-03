@@ -113,17 +113,22 @@ class Moto{
 //---------------------------------
     Bateria* liberarBateria(){
         Bateria* out=bateria;
-        if(bateria)bateria=NULL;
+        if(bateria){
+            bateria->desassociarHost();
+            bateria = NULL;
+        }
         else cout<<"A moto ja esta sem bateria\n";
         return out;
     }
 //---------------------------------
     void simular_1seg(){
-        if(ligada){
-            if(btn_freio)freiar();
-            else if(btn_acelerador)acelerar();
+        if(bateria){
+            if(ligada){
+                if(btn_freio)freiar();
+                else if(btn_acelerador)acelerar();
+            }
+            consumirBateria_1seg();
         }
-        consumirBateria_1seg();
     }
 //---------------------------------
     void consumirBateria_1seg(){
@@ -338,17 +343,17 @@ int main(){
         moto.liberarFreio();
         moto.acionarAcelerador();
         for(int j=0;j<3*60;j++,seg++){
-            if(seg%10==0){relatorio(moto,etb);}
             moto.simular_1seg();
             etb.simular_1seg();
+            if(seg%10==0){relatorio(moto,etb);}
         }
         //10seg de frenagem
         moto.acionarFreio();
         moto.liberarAcelerador();
         for(int j=0;j<10;j++,seg++){
-            if(seg%10==0){relatorio(moto,etb);}
             moto.simular_1seg();
             etb.simular_1seg();
+            if(seg%10==0){relatorio(moto,etb);}
         }
     }
 
@@ -358,17 +363,17 @@ int main(){
         moto.liberarFreio();
         moto.acionarAcelerador();
         for(int j=0;j<2*60;j++,seg++){
-            if(seg%10==0){relatorio(moto,etb);}
             moto.simular_1seg();
             etb.simular_1seg();
+            if(seg%10==0){relatorio(moto,etb);}
         }
         //12seg de frenagem
         moto.acionarFreio();
         moto.liberarAcelerador();
         for(int j=0;j<12;j++,seg++){
-            if(seg%10==0){relatorio(moto,etb);}
             moto.simular_1seg();
             etb.simular_1seg();
+            if(seg%10==0){relatorio(moto,etb);}
         }
     }
 
@@ -376,21 +381,31 @@ int main(){
     moto.liberarFreio();
     moto.acionarAcelerador();
     for(int j=0;j<100;j++,seg++){
-        if(seg%10==0){relatorio(moto,etb);}
         moto.simular_1seg();
         etb.simular_1seg();
+        if(seg%10==0){relatorio(moto,etb);}
     }
 
     //32seg de frenagem
     moto.acionarFreio();
     moto.liberarAcelerador();
     for(int j=0;j<32;j++,seg++){
-        if(seg%10==0){relatorio(moto,etb);}
         moto.simular_1seg();
         etb.simular_1seg();
+        if(seg%10==0){relatorio(moto,etb);}
     }
     
     moto.desligarMoto();
+
+    etb.associarBateriaNoCP(6,moto.liberarBateria());
+    relatorio(moto,etb);
+
+
+    for(int j=0;j<10;j++,seg++){
+        moto.simular_1seg();
+        etb.simular_1seg();
+        if(seg%10==0){relatorio(moto,etb);}
+    }
 
     cout<<seg;
 
