@@ -30,58 +30,58 @@ Logo após, executar:
 ### Funcionalidades 
 #### Bateria
 
-Para criar a bateria, utilizamos o comando
+Para criar a bateria, utilizamos o comando:
 ```
  Bateria bateria;
 ```
 
- Para setar um ID 
+ Para setar um ID:
 ```
  bateria.setSoc(porcentagembateria);
 ```
 
  #### Moto
 
- Para criar a moto
+ Para criar a moto:
 ```
  Moto moto(placa);
 ```
- Para associar uma bateria
+ Para associar uma bateria:
 ```
  moto.associarBateria(ponteirobateria);
 ```
- Para desassociar a bateria
+ Para desassociar a bateria:
 ```
  moto.liberarBateria();
 ```
 
-Para ligar a moto é necessário acionar o freio
+Para ligar a moto é necessário acionar o freio:
 ```
 moto.acionarFreio();
 moto.ligarMoto();
 ```
-Para acelerar a moto é necessário que o freio não esteja pressionado
+Para acelerar a moto é necessário que o freio não esteja pressionado:
 ```
 moto.liberarFreio();
 moto.acionarAcelerador();
 ```
 #### Estação de carga 
 
-Para criar a estação de carga
+Para criar a estação de carga:
 ```
 EstacaoCarga etb(id);
 ```
-Para associar uma bateria
+Para associar uma bateria:
 ```
 etb.associaBateriaNoCP(nCP, poteirobateria);
 ```
-Para desassociar 
+Para desassociar:
 ```
 etc.liberarBateriaDoCP(nCP);
 ```
 ### Simulação
 
-Para simular 1 (um) segundo de operação da moto
+Para simular 1 (um) segundo de operação da moto:
 ```
 moto.simular_1seg();
 ```
@@ -91,13 +91,13 @@ A moto só ganha velocidade quando o acelerador está acionado, ofreio não pres
 
 Quando o freio é pressionado, não acontece aceleração e a moto perde velocidade gradativa até que se chegue o freio seja liberado ou até que atinja a frenagem completa da moto. 
 
-Para simular 1 (um) segundo da operação da estação de carga 
+Para simular 1 (um) segundo da operação da estação de carga:
 ```
 etb.simular_1seg();
 ```
 A estação de carga possui a capacidade de carregamento de no máximo 6 baterias em simultaneidade. Quando houver mais do que 6 baterias em carregamento, estação dará preferência àquela em que estiver mais próxima de sua carga completa. 
 
-Para apresentar um resumo das informações acerca da moto e uma estação de carga
+Para apresentar um resumo das informações acerca da moto e uma estação de carga:
 ```
 relatorio(moto,etb);
 ```
